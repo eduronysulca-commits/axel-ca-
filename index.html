@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Dashboard de Ventas</title>
+
+    <link
+        rel="stylesheet"
+        href="style.css"
+    >
+
+    <!-- Excel -->
+    <script
+        src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js">
+    </script>
+
+</head>
+
+
+<body>
+
+
+    <!-- =====================================================
+         HEADER
+    ====================================================== -->
+
+    <header class="header">
+
+        <div class="header-contenido">
+
+            <div>
+
+                <div class="mini-titulo">
+                    CONTROL DE VENTAS
+                </div>
+
+                <h1>
+                    Dashboard de Ventas
+                </h1>
+
+                <p>
+                    Analiza tus productos vendidos de forma rápida y sencilla.
+                </p>
+
+            </div>
+
+            <div class="icono-header">
+                📊
+            </div>
+
+        </div>
+
+    </header>
+
+
+
+    <main class="contenedor">
+
+
+        <!-- =====================================================
+             SUBIR EXCEL
+        ====================================================== -->
+
+        <section class="panel panel-subir">
+
+            <div class="subir-contenido">
+
+                <div class="subir-icono">
+                    📁
+                </div>
+
+                <div class="subir-texto">
+
+                    <h2>
+                        Cargar archivo Excel
+                    </h2>
+
+                    <p>
+                        Sube tu reporte de ventas para actualizar el dashboard.
+                    </p>
+
+                </div>
+
+
+                <label
+                    for="archivoExcel"
+                    class="btn-subir"
+                >
+                    Seleccionar Excel
+                </label>
+
+                <input
+                    type="file"
+                    id="archivoExcel"
+                    accept=".xlsx,.xls"
+                    multiple
+                >
+
+            </div>
+
+        </section>
+
+
+
+        <!-- =====================================================
+             ESTADO
+        ====================================================== -->
+
+        <section class="estado">
+
+            <div>
+
+                <span class="estado-punto"></span>
+
+                <span id="estadoTexto">
+                    Listo para cargar archivos
+                </span>
+
+            </div>
+
+            <div>
+
+                <strong id="cantidadArchivos">
+                    0
+                </strong>
+
+                archivos guardados
+
+            </div>
+
+        </section>
+
+
+
+        <!-- =====================================================
+             TARJETAS
+        ====================================================== -->
+
+        <section class="tarjetas">
+
+
+            <div class="tarjeta">
+
+                <div class="tarjeta-icono">
+                    📦
+                </div>
+
+                <div>
+
+                    <span>
+                        Unidades vendidas
+                    </span>
+
+                    <strong id="totalProductos">
+                        0
+                    </strong>
+
+                </div>
+
+            </div>
+
+
+
+            <div class="tarjeta">
+
+                <div class="tarjeta-icono">
+                    🏷️
+                </div>
+
+                <div>
+
+                    <span>
+                        Productos diferentes
+                    </span>
+
+                    <strong id="productosDiferentes">
+                        0
+                    </strong>
+
+                </div>
+
+            </div>
+
+
+
+            <div class="tarjeta">
+
+                <div class="tarjeta-icono">
+                    💰
+                </div>
+
+                <div>
+
+                    <span>
+                        Total vendido
+                    </span>
+
+                    <strong id="totalVendido">
+                        S/ 0.00
+                    </strong>
+
+                </div>
+
+            </div>
+
+
+
+            <div class="tarjeta">
+
+                <div class="tarjeta-icono">
+                    📈
+                </div>
+
+                <div>
+
+                    <span>
+                        Promedio por unidad
+                    </span>
+
+                    <strong id="promedioProducto">
+                        S/ 0.00
+                    </strong>
+
+                </div>
+
+            </div>
+
+
+        </section>
+
+
+
+        <!-- =====================================================
+             FILTROS
+        ====================================================== -->
+
+        <section class="panel">
+
+            <div class="titulo-panel">
+
+                <div>
+
+                    <span class="etiqueta">
+                        FILTROS
+                    </span>
+
+                    <h2>
+                        Filtrar información
+                    </h2>
+
+                </div>
+
+            </div>
+
+
+            <div class="filtros">
+
+
+                <div class="campo">
+
+                    <label>
+                        Producto
+                    </label>
+
+                    <select id="filtroProducto">
+
+                        <option value="">
+                            Todos los productos
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+
+                <div class="campo">
+
+                    <label>
+                        Archivo
+                    </label>
+
+                    <select id="filtroArchivo">
+
+                        <option value="">
+                            Todos los archivos
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+            </div>
+
+        </section>
+
+
+
+        <!-- =====================================================
+             DOS COLUMNAS
+        ====================================================== -->
+
+        <section class="dos-columnas">
+
+
+            <!-- =================================================
+                 PRODUCTOS MÁS VENDIDOS
+            ================================================== -->
+
+            <section class="panel">
+
+                <div class="titulo-panel">
+
+                    <div>
+
+                        <span class="etiqueta">
+                            RANKING
+                        </span>
+
+                        <h2>
+                            Productos más vendidos
+                        </h2>
+
+                        <p>
+                            Selecciona desde cuántas unidades mostrar.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="filtro-ranking">
+
+                    <label for="minimoVendidos">
+                        Mostrar desde:
+                    </label>
+
+                    <select id="minimoVendidos">
+
+                        <option value="1">
+                            1 o más
+                        </option>
+
+                        <option value="2">
+                            2 o más
+                        </option>
+
+                        <option value="3">
+                            3 o más
+                        </option>
+
+                        <option value="4">
+                            4 o más
+                        </option>
+
+                        <option
+                            value="5"
+                            selected
+                        >
+                            5 o más
+                        </option>
+
+                        <option value="10">
+                            10 o más
+                        </option>
+
+                        <option value="20">
+                            20 o más
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <div
+                    id="rankingProductos"
+                    class="ranking"
+                >
+
+                    <p class="vacio">
+                        Carga un archivo Excel para comenzar.
+                    </p>
+
+                </div>
+
+            </section>
+
+
+
+            <!-- =================================================
+                 MÁS DINERO
+            ================================================== -->
+
+            <section class="panel">
+
+                <div class="titulo-panel">
+
+                    <div>
+
+                        <span class="etiqueta">
+                            INGRESOS
+                        </span>
+
+                        <h2>
+                            Productos que más dinero generan
+                        </h2>
+
+                        <p>
+                            Los productos con mayor venta acumulada.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div
+                    id="rankingDinero"
+                    class="ranking"
+                >
+
+                    <p class="vacio">
+                        Carga un archivo Excel para comenzar.
+                    </p>
+
+                </div>
+
+            </section>
+
+
+        </section>
+
+
+
+        <!-- =====================================================
+             TABLA RESUMEN
+        ====================================================== -->
+
+        <section class="panel">
+
+            <div class="titulo-panel">
+
+                <div>
+
+                    <span class="etiqueta">
+                        RESUMEN
+                    </span>
+
+                    <h2>
+                        Resumen por producto
+                    </h2>
+
+                </div>
+
+            </div>
+
+
+            <div class="tabla-contenedor">
+
+                <table>
+
+                    <thead>
+
+                        <tr>
+
+                            <th>
+                                Producto
+                            </th>
+
+                            <th>
+                                Unidades
+                            </th>
+
+                            <th>
+                                Total vendido
+                            </th>
+
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody id="tablaProductos">
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- =====================================================
+             DETALLE
+        ====================================================== -->
+
+        <section class="panel">
+
+            <div class="titulo-panel">
+
+                <div>
+
+                    <span class="etiqueta">
+                        DETALLE
+                    </span>
+
+                    <h2>
+                        Detalle de ventas
+                    </h2>
+
+                </div>
+
+            </div>
+
+
+            <div class="tabla-contenedor">
+
+                <table>
+
+                    <thead>
+
+                        <tr>
+
+                            <th>
+                                Código
+                            </th>
+
+                            <th>
+                                Producto
+                            </th>
+
+                            <th>
+                                Cantidad
+                            </th>
+
+                            <th>
+                                UM
+                            </th>
+
+                            <th>
+                                Base imponible
+                            </th>
+
+                            <th>
+                                Total
+                            </th>
+
+                            <th>
+                                Archivo
+                            </th>
+
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody id="tablaDetalle">
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- =====================================================
+             HISTORIAL
+        ====================================================== -->
+
+        <section class="panel">
+
+            <div class="titulo-panel">
+
+                <div>
+
+                    <span class="etiqueta">
+                        ARCHIVOS
+                    </span>
+
+                    <h2>
+                        Archivos guardados
+                    </h2>
+
+                    <p>
+                        Los archivos se guardan automáticamente en este navegador.
+                    </p>
+
+                </div>
+
+
+                <button
+                    id="btnBorrarTodo"
+                    class="btn-peligro"
+                >
+                    Eliminar todo
+                </button>
+
+            </div>
+
+
+            <div id="historialArchivos">
+
+                <p class="vacio">
+                    No hay archivos guardados.
+                </p>
+
+            </div>
+
+        </section>
+
+
+    </main>
+
+
+
+    <footer>
+
+        Dashboard de Ventas · Control local
+
+    </footer>
+
+
+
+    <script src="script.js"></script>
+
+</body>
+
+</html>

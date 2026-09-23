@@ -1,0 +1,1043 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+
+body {
+
+    font-family:
+        Arial,
+        Helvetica,
+        sans-serif;
+
+    background:
+        #f4f6f9;
+
+    color:
+        #1f2937;
+
+    min-height:
+        100vh;
+
+}
+
+
+/* =====================================================
+   HEADER
+===================================================== */
+
+.header {
+
+    background:
+        linear-gradient(
+            135deg,
+            #111827,
+            #1f2937
+        );
+
+    color:
+        white;
+
+    padding:
+        35px 20px;
+
+    box-shadow:
+        0 5px 20px
+        rgba(0,0,0,0.10);
+
+}
+
+
+.header-contenido {
+
+    max-width:
+        1200px;
+
+    margin:
+        auto;
+
+    display:
+        flex;
+
+    justify-content:
+        space-between;
+
+    align-items:
+        center;
+
+}
+
+
+.mini-titulo {
+
+    font-size:
+        12px;
+
+    letter-spacing:
+        2px;
+
+    opacity:
+        0.7;
+
+    margin-bottom:
+        8px;
+
+}
+
+
+.header h1 {
+
+    font-size:
+        32px;
+
+    margin-bottom:
+        8px;
+
+}
+
+
+.header p {
+
+    color:
+        #d1d5db;
+
+}
+
+
+.icono-header {
+
+    font-size:
+        55px;
+
+}
+
+
+/* =====================================================
+   CONTENEDOR
+===================================================== */
+
+.contenedor {
+
+    max-width:
+        1200px;
+
+    margin:
+        30px auto;
+
+    padding:
+        0 20px;
+
+}
+
+
+/* =====================================================
+   PANELES
+===================================================== */
+
+.panel {
+
+    background:
+        white;
+
+    border-radius:
+        16px;
+
+    padding:
+        25px;
+
+    margin-bottom:
+        25px;
+
+    box-shadow:
+        0 5px 20px
+        rgba(0,0,0,0.05);
+
+    border:
+        1px solid #e5e7eb;
+
+}
+
+
+/* =====================================================
+   SUBIR
+===================================================== */
+
+.panel-subir {
+
+    border:
+        2px dashed #d1d5db;
+
+    background:
+        #ffffff;
+
+}
+
+
+.subir-contenido {
+
+    display:
+        flex;
+
+    align-items:
+        center;
+
+    gap:
+        20px;
+
+}
+
+
+.subir-icono {
+
+    width:
+        60px;
+
+    height:
+        60px;
+
+    border-radius:
+        15px;
+
+    display:
+        flex;
+
+    align-items:
+        center;
+
+    justify-content:
+        center;
+
+    background:
+        #eef2ff;
+
+    font-size:
+        28px;
+
+}
+
+
+.subir-texto {
+
+    flex:
+        1;
+
+}
+
+
+.subir-texto h2 {
+
+    margin-bottom:
+        5px;
+
+}
+
+
+.subir-texto p {
+
+    color:
+        #6b7280;
+
+}
+
+
+#archivoExcel {
+
+    display:
+        none;
+
+}
+
+
+.btn-subir {
+
+    background:
+        #111827;
+
+    color:
+        white;
+
+    padding:
+        13px 22px;
+
+    border-radius:
+        10px;
+
+    cursor:
+        pointer;
+
+    font-weight:
+        bold;
+
+    transition:
+        0.2s;
+
+}
+
+
+.btn-subir:hover {
+
+    transform:
+        translateY(-2px);
+
+    box-shadow:
+        0 7px 15px
+        rgba(0,0,0,0.15);
+
+}
+
+
+/* =====================================================
+   ESTADO
+===================================================== */
+
+.estado {
+
+    display:
+        flex;
+
+    justify-content:
+        space-between;
+
+    align-items:
+        center;
+
+    background:
+        #ffffff;
+
+    padding:
+        15px 20px;
+
+    border-radius:
+        12px;
+
+    margin-bottom:
+        25px;
+
+    border:
+        1px solid #e5e7eb;
+
+    color:
+        #6b7280;
+
+}
+
+
+.estado > div:first-child {
+
+    display:
+        flex;
+
+    align-items:
+        center;
+
+    gap:
+        8px;
+
+}
+
+
+.estado-punto {
+
+    width:
+        9px;
+
+    height:
+        9px;
+
+    background:
+        #22c55e;
+
+    border-radius:
+        50%;
+
+}
+
+
+/* =====================================================
+   TARJETAS
+===================================================== */
+
+.tarjetas {
+
+    display:
+        grid;
+
+    grid-template-columns:
+        repeat(4, 1fr);
+
+    gap:
+        18px;
+
+    margin-bottom:
+        25px;
+
+}
+
+
+.tarjeta {
+
+    background:
+        white;
+
+    padding:
+        22px;
+
+    border-radius:
+        16px;
+
+    display:
+        flex;
+
+    align-items:
+        center;
+
+    gap:
+        15px;
+
+    border:
+        1px solid #e5e7eb;
+
+    box-shadow:
+        0 5px 15px
+        rgba(0,0,0,0.04);
+
+}
+
+
+.tarjeta-icono {
+
+    width:
+        50px;
+
+    height:
+        50px;
+
+    border-radius:
+        13px;
+
+    background:
+        #f3f4f6;
+
+    display:
+        flex;
+
+    align-items:
+        center;
+
+    justify-content:
+        center;
+
+    font-size:
+        23px;
+
+}
+
+
+.tarjeta span {
+
+    display:
+        block;
+
+    color:
+        #6b7280;
+
+    font-size:
+        13px;
+
+    margin-bottom:
+        6px;
+
+}
+
+
+.tarjeta strong {
+
+    font-size:
+        24px;
+
+    color:
+        #111827;
+
+}
+
+
+/* =====================================================
+   TITULOS
+===================================================== */
+
+.titulo-panel {
+
+    display:
+        flex;
+
+    justify-content:
+        space-between;
+
+    align-items:
+        center;
+
+    margin-bottom:
+        20px;
+
+}
+
+
+.titulo-panel h2 {
+
+    font-size:
+        20px;
+
+    margin:
+        5px 0;
+
+}
+
+
+.titulo-panel p {
+
+    color:
+        #6b7280;
+
+    font-size:
+        14px;
+
+}
+
+
+.etiqueta {
+
+    font-size:
+        11px;
+
+    letter-spacing:
+        1.5px;
+
+    color:
+        #6b7280;
+
+    font-weight:
+        bold;
+
+}
+
+
+/* =====================================================
+   FILTROS
+===================================================== */
+
+.filtros {
+
+    display:
+        grid;
+
+    grid-template-columns:
+        1fr 1fr;
+
+    gap:
+        20px;
+
+}
+
+
+.campo label {
+
+    display:
+        block;
+
+    font-size:
+        13px;
+
+    font-weight:
+        bold;
+
+    margin-bottom:
+        8px;
+
+}
+
+
+select {
+
+    width:
+        100%;
+
+    padding:
+        12px;
+
+    border:
+        1px solid #d1d5db;
+
+    border-radius:
+        9px;
+
+    background:
+        white;
+
+    font-size:
+        14px;
+
+    outline:
+        none;
+
+}
+
+
+select:focus {
+
+    border-color:
+        #6b7280;
+
+}
+
+
+/* =====================================================
+   DOS COLUMNAS
+===================================================== */
+
+.dos-columnas {
+
+    display:
+        grid;
+
+    grid-template-columns:
+        1fr 1fr;
+
+    gap:
+        25px;
+
+}
+
+
+/* =====================================================
+   FILTRO RANKING
+===================================================== */
+
+.filtro-ranking {
+
+    display:
+        flex;
+
+    align-items:
+        center;
+
+    gap:
+        10px;
+
+    margin-bottom:
+        20px;
+
+    padding:
+        12px;
+
+    background:
+        #f9fafb;
+
+    border-radius:
+        10px;
+
+}
+
+
+.filtro-ranking label {
+
+    font-size:
+        13px;
+
+    font-weight:
+        bold;
+
+}
+
+
+.filtro-ranking select {
+
+    width:
+        auto;
+
+    min-width:
+        130px;
+
+    padding:
+        8px 10px;
+
+}
+
+
+/* =====================================================
+   RANKING
+===================================================== */
+
+.ranking {
+
+    display:
+        flex;
+
+    flex-direction:
+        column;
+
+    gap:
+        8px;
+
+}
+
+
+.ranking-item {
+
+    display:
+        flex;
+
+    justify-content:
+        space-between;
+
+    align-items:
+        center;
+
+    padding:
+        14px;
+
+    border:
+        1px solid #eef0f2;
+
+    border-radius:
+        10px;
+
+    background:
+        #fafafa;
+
+}
+
+
+.ranking-item span {
+
+    font-size:
+        14px;
+
+}
+
+
+.ranking-item strong {
+
+    font-size:
+        14px;
+
+}
+
+
+.vacio {
+
+    text-align:
+        center;
+
+    padding:
+        30px;
+
+    color:
+        #9ca3af;
+
+}
+
+
+/* =====================================================
+   TABLAS
+===================================================== */
+
+.tabla-contenedor {
+
+    overflow-x:
+        auto;
+
+}
+
+
+table {
+
+    width:
+        100%;
+
+    border-collapse:
+        collapse;
+
+}
+
+
+th {
+
+    text-align:
+        left;
+
+    background:
+        #f9fafb;
+
+    padding:
+        14px;
+
+    font-size:
+        12px;
+
+    color:
+        #6b7280;
+
+    text-transform:
+        uppercase;
+
+}
+
+
+td {
+
+    padding:
+        14px;
+
+    border-top:
+        1px solid #eef0f2;
+
+    font-size:
+        14px;
+
+}
+
+
+tr:hover td {
+
+    background:
+        #fafafa;
+
+}
+
+
+/* =====================================================
+   HISTORIAL
+===================================================== */
+
+.historial-item {
+
+    display:
+        flex;
+
+    justify-content:
+        space-between;
+
+    align-items:
+        center;
+
+    padding:
+        16px;
+
+    border:
+        1px solid #e5e7eb;
+
+    border-radius:
+        12px;
+
+    margin-bottom:
+        10px;
+
+}
+
+
+.historial-item small {
+
+    color:
+        #6b7280;
+
+}
+
+
+.btn-eliminar {
+
+    border:
+        none;
+
+    background:
+        #fee2e2;
+
+    color:
+        #b91c1c;
+
+    padding:
+        8px 12px;
+
+    border-radius:
+        8px;
+
+    cursor:
+        pointer;
+
+    font-weight:
+        bold;
+
+}
+
+
+.btn-eliminar:hover {
+
+    background:
+        #fecaca;
+
+}
+
+
+.btn-peligro {
+
+    border:
+        none;
+
+    background:
+        #111827;
+
+    color:
+        white;
+
+    padding:
+        10px 15px;
+
+    border-radius:
+        8px;
+
+    cursor:
+        pointer;
+
+}
+
+
+.btn-peligro:hover {
+
+    background:
+        #374151;
+
+}
+
+
+/* =====================================================
+   FOOTER
+===================================================== */
+
+footer {
+
+    text-align:
+        center;
+
+    padding:
+        30px;
+
+    color:
+        #9ca3af;
+
+    font-size:
+        13px;
+
+}
+
+
+/* =====================================================
+   RESPONSIVE
+===================================================== */
+
+@media (max-width: 900px) {
+
+    .tarjetas {
+
+        grid-template-columns:
+            repeat(2, 1fr);
+
+    }
+
+    .dos-columnas {
+
+        grid-template-columns:
+            1fr;
+
+    }
+
+}
+
+
+@media (max-width: 600px) {
+
+    .header-contenido {
+
+        flex-direction:
+            column;
+
+        align-items:
+            flex-start;
+
+        gap:
+            20px;
+
+    }
+
+
+    .header h1 {
+
+        font-size:
+            26px;
+
+    }
+
+
+    .tarjetas {
+
+        grid-template-columns:
+            1fr;
+
+    }
+
+
+    .subir-contenido {
+
+        flex-direction:
+            column;
+
+        align-items:
+            flex-start;
+
+    }
+
+
+    .btn-subir {
+
+        width:
+            100%;
+
+        text-align:
+            center;
+
+    }
+
+
+    .filtros {
+
+        grid-template-columns:
+            1fr;
+
+    }
+
+
+    .estado {
+
+        flex-direction:
+            column;
+
+        align-items:
+            flex-start;
+
+        gap:
+            8px;
+
+    }
+
+
+    .titulo-panel {
+
+        align-items:
+            flex-start;
+
+        gap:
+            15px;
+
+    }
+
+}
