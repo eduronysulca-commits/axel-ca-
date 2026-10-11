@@ -125,344 +125,163 @@ function productoDebeExcluirse(producto) {
 }
 
 
+
+ // =====================================================
+// BASE DE DATOS EN GOOGLE SHEETS
+// MEDIANTE CLOUDFLARE WORKER
 // =====================================================
-// BASE DE DATOS
+
+const API_URL =
+    "https://dashboard-ventas-api.movistarzamacola.workers.dev";
+
+// =====================================================
+// CONSULTAR REGISTROS
 // =====================================================
 
-function abrirBaseDatos() {
+async function consultarRegistros() {
+    const respuesta = await fetch(API_URL, {
+        method: "GET",
+        cache: "no-store"
+    });
 
-    return new Promise(
-        (resolve, reject) => {
+    if (!respuesta.ok) {
+        throw new Error("No se pudo consultar Google Sheets.");
+    }
 
-            const request =
-                indexedDB.open(
-                    DB_NAME,
-                    DB_VERSION
-                );
+    const resultado = await respuesta.json();
 
+    if (!resultado.ok) {
+        throw new Error(
+            resultado.error || "Error al consultar registros."
+        );
+    }
 
-            request.onupgradeneeded =
-                function (event) {
-
-                    const db =
-                        event.target.result;
-
-
-                    if (
-                        !db.objectStoreNames
-                            .contains(STORE_NAME)
-                    ) {
-
-                        db.createObjectStore(
-                            STORE_NAME,
-                            {
-                                keyPath: "id",
-                                autoIncrement: true
-                            }
-                        );
-
-                    }
-
-                };
-
-
-            request.onsuccess =
-                function () {
-
-                    resolve(
-                        request.result
-                    );
-
-                };
-
-
-            request.onerror =
-                function () {
-
-                    reject(
-                        request.error
-                    );
-
-                };
-
-        }
-    );
-
+    return resultado.registros || [];
 }
-
 
 // =====================================================
 // GUARDAR ARCHIVO
 // =====================================================
 
-async function guardarArchivo(
-    archivo
-) {
+async function guardarArchivo(archivo) {
+    const id =
+        globalThis.crypto?.randomUUID?.() ||
+        `${Date.now()}-${Math.random().toString(36).slice(2)}`;
 
-    const db =
-        await abrirBaseDatos();
+    const registros = archivo.ventas.map(venta => ({
+        ID: id,
+        NombreArchivo: archivo.nombre,
+        Fecha: archivo.fecha,
+        Codigo: venta.codigo,
+        Producto: venta.producto,
+        Cantidad: venta.cantidad,
+        UM: venta.um,
+        Base: venta.base,
+        Total: venta.total
+    }));
 
+    const respuesta = await fetch(API_URL, {
+        method: "POST",
+        headers: {
+            "Content-Type": "text/plain;charset=UTF-8"
+        },
+        body: JSON.stringify({
+            accion: "guardar",
+            registros: registros
+        })
+    });
 
-    return new Promise(
-        (resolve, reject) => {
+    if (!respuesta.ok) {
+        throw new Error("No se pudieron guardar las ventas.");
+    }
 
-            const transaction =
-                db.transaction(
-                    STORE_NAME,
-                    "readwrite"
-                );
+    const resultado = await respuesta.json();
 
+    if (!resultado.ok) {
+        throw new Error(
+            resultado.error || "Error al guardar ventas."
+        );
+    }
 
-            const store =
-                transaction
-                    .objectStore(
-                        STORE_NAME
-                    );
-
-
-            const request =
-                store.add(archivo);
-
-
-            request.onsuccess =
-                function () {
-
-                    resolve(
-                        request.result
-                    );
-
-                };
-
-
-            request.onerror =
-                function () {
-
-                    reject(
-                        request.error
-                    );
-
-                };
-
-        }
-    );
-
+    return id;
 }
-
 
 // =====================================================
 // OBTENER ARCHIVOS
 // =====================================================
 
 async function obtenerArchivos() {
+    const registros = await consultarRegistros();
+    const grupos = new Map();
 
-    const db =
-        await abrirBaseDatos();
+    registros.forEach(registro => {
+        const id = String(registro.ID ?? "");
 
+        if (!id) return;
 
-    return new Promise(
-        (resolve, reject) => {
-
-            const transaction =
-                db.transaction(
-                    STORE_NAME,
-                    "readonly"
-                );
-
-
-            const store =
-                transaction
-                    .objectStore(
-                        STORE_NAME
-                    );
-
-
-            const request =
-                store.getAll();
-
-
-            request.onsuccess =
-                function () {
-
-                    resolve(
-                        request.result
-                    );
-
-                };
-
-
-            request.onerror =
-                function () {
-
-                    reject(
-                        request.error
-                    );
-
-                };
-
+        if (!grupos.has(id)) {
+            grupos.set(id, {
+                id: id,
+                nombre: String(registro.NombreArchivo ?? ""),
+                fecha: registro.Fecha ?? "",
+                ventas: []
+            });
         }
-    );
 
+        grupos.get(id).ventas.push({
+            codigo: String(registro.Codigo ?? ""),
+            producto: String(registro.Producto ?? ""),
+            cantidad: Number(registro.Cantidad) || 0,
+            um: String(registro.UM ?? ""),
+            base: Number(registro.Base) || 0,
+            total: Number(registro.Total) || 0
+        });
+    });
+
+    return Array.from(grupos.values());
 }
-
-
-// =====================================================
-// ELIMINAR ARCHIVO
-// =====================================================
-
-async function eliminarArchivo(
-    id
-) {
-
-    const db =
-        await abrirBaseDatos();
-
-
-    return new Promise(
-        (resolve, reject) => {
-
-            const transaction =
-                db.transaction(
-                    STORE_NAME,
-                    "readwrite"
-                );
-
-
-            const store =
-                transaction
-                    .objectStore(
-                        STORE_NAME
-                    );
-
-
-            const request =
-                store.delete(id);
-
-
-            request.onsuccess =
-                function () {
-
-                    resolve();
-
-                };
-
-
-            request.onerror =
-                function () {
-
-                    reject(
-                        request.error
-                    );
-
-                };
-
-        }
-    );
-
-}
-
-
-// =====================================================
-// ELIMINAR TODOS
-// =====================================================
-
-async function eliminarTodos() {
-
-    const db =
-        await abrirBaseDatos();
-
-
-    return new Promise(
-        (resolve, reject) => {
-
-            const transaction =
-                db.transaction(
-                    STORE_NAME,
-                    "readwrite"
-                );
-
-
-            const store =
-                transaction
-                    .objectStore(
-                        STORE_NAME
-                    );
-
-
-            const request =
-                store.clear();
-
-
-            request.onsuccess =
-                function () {
-
-                    resolve();
-
-                };
-
-
-            request.onerror =
-                function () {
-
-                    reject(
-                        request.error
-                    );
-
-                };
-
-        }
-    );
-
-}
-
 
 // =====================================================
 // CARGAR DATOS GUARDADOS
 // =====================================================
 
 async function cargarDatosGuardados() {
+    const estado = document.getElementById("estadoTexto");
 
-    archivosGuardados =
-        await obtenerArchivos();
-
-
-    datos = [];
-
-
-    archivosGuardados.forEach(
-        archivo => {
-
-            archivo.ventas.forEach(
-                venta => {
-
-                    datos.push({
-
-                        ...venta,
-
-                        archivoId:
-                            archivo.id,
-
-                        archivoNombre:
-                            archivo.nombre
-
-                    });
-
-                }
-            );
-
+    try {
+        if (estado) {
+            estado.textContent = "Consultando Google Sheets...";
         }
-    );
 
+        archivosGuardados = await obtenerArchivos();
+        datos = [];
 
-    actualizarContadorArchivos();
+        archivosGuardados.forEach(archivo => {
+            archivo.ventas.forEach(venta => {
+                datos.push({
+                    ...venta,
+                    archivoId: archivo.id,
+                    archivoNombre: archivo.nombre
+                });
+            });
+        });
 
-    mostrarHistorial();
+        actualizarContadorArchivos();
+        mostrarHistorial();
+        actualizarFiltros();
+        actualizarDashboard();
 
-    actualizarFiltros();
+        if (estado) {
+            estado.textContent = "Datos sincronizados con Google Sheets.";
+        }
+    } catch (error) {
+        console.error("Error al cargar datos:", error);
 
-    actualizarDashboard();
-
+        if (estado) {
+            estado.textContent = "Error al consultar Google Sheets.";
+        }
+    }
 }
-
 
 // =====================================================
 // SUBIR EXCEL
